@@ -17,9 +17,19 @@ def get_gender(name):
     else:
         return "M"
 
-def parse_members():
-    Member = namedtuple("member", ["gender", ])
+class Member:
+    def __init__(self, name, company="н/д", position="н/д"):
+        self.name = name
+        self.company = company
+        self.position = position
 
+    def __repr__(self):
+        return "%s works at %s as %s" % (self.name, self.company, self.position)
+
+    def row(self):
+        return "<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (self.name, self.company, self.position)
+
+def parse_members():
     members = []
     names = defaultdict(int)
     companies_am = 0
@@ -30,7 +40,7 @@ def parse_members():
         name_match = re.match(r"""^<dt>(.+) <span?""", line)
         if name_match:
             name, surname = name_match.group(1).split(" ")
-            members.append(Member(gender=get_gender(name)))
+            members.append(Member(name=name))
             names[name] += 1
             members_am += 1
             continue
@@ -38,15 +48,31 @@ def parse_members():
         name_match = re.match(r"""^<dt>(.+) </dt>""", line)
         if name_match:
             name, surname = name_match.group(1).split(" ")
-            members.append(Member(gender=get_gender(name)))
+            members.append(Member(name=name))
             names[name] += 1
             members_am += 1
             continue
-        
-        company_match = re.match(r"""<dd><a href""", line)
-        if company_match:
+
+        searcher_match = re.match(r"""<dd><a href="companies#company_\d+" rel="company_\d+">(.+)</a>(, .*)?<span class="(.*)"><img src""", line)
+        if searcher_match:
+            # Add employee/job statistics if desired
+            if len(searcher_match.group(1)) > 2:
+                members[-1].company = searcher_match.group(1)
+            if searcher_match.group(2):
+                members[-1].position = searcher_match.group(2)[2:]
             companies_am += 1
             continue
+
+        company_match = re.match(r"""<dd><a href="companies#company_\d+" rel="company_\d+">(.+)</a>(, .*)?</dd>""", line)
+        if company_match:
+            if len(company_match.group(1)) > 2:
+                members[-1].company = company_match.group(1)
+            if company_match.group(2):
+                members[-1].position = company_match.group(2)[2:]
+            companies_am += 1
+            continue
+
+        print(line)
 
     assert companies_am == 1338
     assert members_am == 1338
@@ -63,9 +89,16 @@ def print_name_stats(names):
 def print_stats(members):
     genders = defaultdict(int)
     for m in members:
-        genders[m.gender] += 1
+        genders[get_gender(m.name)] += 1
     print("Genders: %s" % genders)
+
+def store_raw_stats(members):
+    out = open("raw_stats.html", "w")
+    content = "<html><body><table>%s</table></body></html>" % "".join(map(Member.row, members))
+    out.write(content)
+    out.close()
 
 if __name__ == "__main__":
     members = parse_members()
     print_stats(members)
+    store_raw_stats(members)
