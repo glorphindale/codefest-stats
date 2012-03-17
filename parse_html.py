@@ -93,8 +93,10 @@ def print_stats(members):
     print("Genders: %s" % genders)
 
 def store_raw_stats(members):
+    template = open("raw_stats_template.html", "r").read()
+
     out = open("raw_stats.html", "w")
-    content = "<html><body><table>%s</table></body></html>" % "".join(map(Member.row, members))
+    content = template % "".join(map(Member.row, members))
     out.write(content)
     out.close()
 
