@@ -2,7 +2,8 @@
 import re
 from collections import namedtuple
 from collections import defaultdict
-name_regex = r"""^(<dt>(.+) <span?|<dt>(.+)</dt>)"""
+
+import filters
 
 def get_gender(name):
     clean_name = name.lower().strip()
@@ -72,13 +73,9 @@ def parse_members():
             companies_am += 1
             continue
 
-        print(line)
-
     assert companies_am == 1338
     assert members_am == 1338
     assert len(members) == 1338
-
-    print_name_stats(names)
 
     return members
 
@@ -96,11 +93,12 @@ def store_raw_stats(members):
     template = open("raw_stats_template.html", "r").read()
 
     out = open("raw_stats.html", "w")
-    content = template % "".join(map(Member.row, members))
+    raw_data = "".join(map(Member.row, members))
+    content = template % locals()
     out.write(content)
     out.close()
 
 if __name__ == "__main__":
     members = parse_members()
     print_stats(members)
-    store_raw_stats(members)
+    store_raw_stats(filters.reduce_companies(members))
