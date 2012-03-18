@@ -5,19 +5,6 @@ from collections import defaultdict
 
 import filters
 
-def get_gender(name):
-    clean_name = name.lower().strip()
-    if clean_name in ["данила", "илья", "миша", "слава"]:
-        return "M"
-
-    if clean_name in ["любовь"]:
-        return "F"
-
-    if clean_name[-1] in ['а', 'е', 'и', 'о', 'у', 'э', 'ю', 'я']:
-        return "F"
-    else:
-        return "M"
-
 class Member:
     def __init__(self, name, company="н/д", position="н/д"):
         self.name = name
@@ -79,26 +66,19 @@ def parse_members():
 
     return members
 
-def print_name_stats(names):
-    """ Get defaultdict with names, print some stats"""
-    print("Names: %s" % (sorted(names.items(), key=lambda p: p[1])))
-
-def print_stats(members):
-    genders = defaultdict(int)
-    for m in members:
-        genders[get_gender(m.name)] += 1
-    print("Genders: %s" % genders)
-
 def store_raw_stats(members):
     template = open("raw_stats_template.html", "r").read()
-
     out = open("raw_stats.html", "w")
+
+    filters.group_companies(members)
+    filters.replace_names(members)
     raw_data = "".join(map(Member.row, members))
+
     content = template % locals()
     out.write(content)
     out.close()
 
 if __name__ == "__main__":
     members = parse_members()
-    print_stats(members)
-    store_raw_stats(filters.reduce_companies(members))
+    members = filters.reduce_companies(members)
+    store_raw_stats(members)
