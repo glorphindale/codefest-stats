@@ -31,7 +31,62 @@ def reduce_companies(members):
             if member.company == key:
                 member.company = mappings[key]
 
-    return members
+def reduce_position(member):
+    position = member.position.lower()
+
+    hrs = ["hr", "персонал", "алексей сухоруков"]
+    for hr in hrs:
+        if hr in position:
+            member.position = "HR"
+            return
+
+    mgmts = ["director", "директор", "manager", "начальник", "pm", "leader", "менеджер",
+            "руководитель", "lead", "лидер", "рук."]
+    for mgmt in mgmts:
+        if mgmt in position:
+            member.position = "управляющий"
+            return
+
+    qas = ["qa", "тестирован", "качеств", "test", "тестировщик"]
+    for qa in qas:
+        if qa in position:
+            member.position = "QA"
+            return
+
+    designers = ["дизайнер", "ui", "интерф"]
+    for designer in designers:
+        if designer in position:
+            member.position = "дизайнер"
+            return
+
+    analysis = ["аналитик", "архи"]
+    for an in analysis:
+        if an in position:
+            member.position = "аналитик"
+            return
+
+    devs = ["developer", "разработчик", "программист", "engineer", "rnd"]
+    for dev in devs:
+        if dev in position:
+            member.position = "разработчик"
+            return
+            
+    admins = ["админ",]
+    for adm in admins:
+        if adm in position:
+            member.position = "администратор"
+            return
+    
+    if "студент" in position:
+        member.position = "студент"
+        return
+
+    member.position = "н/д"
+
+def reduce_positions(members):
+    """ Replace positions and reduce them to smaller amount of values """
+    for member in members:
+        reduce_position(member)
 
 def get_amount_str(amount):
     if 0 < amount < 2:

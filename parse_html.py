@@ -70,15 +70,26 @@ def store_raw_stats(members):
     template = open("raw_stats_template.html", "r").read()
     out = open("raw_stats.html", "w")
 
-    filters.group_companies(members)
-    filters.replace_names(members)
+    positions = count_positions(members)
     raw_data = "".join(map(Member.row, members))
 
     content = template % locals()
     out.write(content)
     out.close()
 
+def count_positions(members):
+    positions = defaultdict(int)
+    for m in members:
+        positions[m.position] += 1
+
+    return (positions, len(positions.keys()))
+
 if __name__ == "__main__":
     members = parse_members()
-    members = filters.reduce_companies(members)
+
+    filters.replace_names(members)
+    filters.group_companies(members)
+    filters.reduce_companies(members)
+    filters.reduce_positions(members)
+
     store_raw_stats(members)
