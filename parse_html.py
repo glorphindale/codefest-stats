@@ -12,6 +12,10 @@ class Member:
         self.position = position
         self.amount = amount
 
+    def __repr__(self):
+        return """{"sex": "%s", "company": "%s", "position": "%s", "amount": %s}""" % (self.name,
+                self.company, self.position, self.amount)
+
     def row(self):
         return "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (self.name, self.company,
                 self.position, self.amount)
@@ -99,8 +103,7 @@ if __name__ == "__main__":
     members = group_members(members)
 
     with open("js/MembersData.js", "w") as f:
-        content = "var raw_data = %s;" % json.dumps([(m.name, m.company, m.position, m.amount) for m
-            in members], ensure_ascii=False)
+        content = "var raw_data = [%s];" % ", ".join([str(m) for m in members])
         f.write(content)
 
     store_raw_stats(members)

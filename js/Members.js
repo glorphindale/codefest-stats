@@ -5,15 +5,15 @@ window.addEvent('domready', function () {
         if (filter_value == "all") {
             return function(elem) { return true; };
         }
-        return function(elem) {return elem[0] == filter_value;};
+        return function(elem) {return elem.sex == filter_value;};
     };
 
     ["all", "m", "f"].map(function(elem) {
         document.getElementById("sex_" + elem).innerHTML = raw_data.filter(filter_values(elem)).reduce(function(a, b) {
-            var d = [];
-            d[3] = a[3] + b[3];
+            var d = Object();
+            d.amount = a.amount + b.amount;
             return d;
-        })[3];
+        }).amount;
     });
 
 });
