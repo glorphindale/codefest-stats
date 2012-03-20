@@ -37,51 +37,51 @@ def reduce_position(member):
     hrs = ["hr", "персонал", "алексей сухоруков"]
     for hr in hrs:
         if hr in position:
-            member.position = "HR"
+            member.position = "hr"
             return
 
     mgmts = ["director", "директор", "manager", "начальник", "pm", "leader", "менеджер",
             "руководитель", "lead", "лидер", "рук."]
     for mgmt in mgmts:
         if mgmt in position:
-            member.position = "управляющий"
+            member.position = "mgmt"
             return
 
     qas = ["qa", "тестирован", "качеств", "test", "тестировщик"]
     for qa in qas:
         if qa in position:
-            member.position = "QA"
+            member.position = "qa"
             return
 
     designers = ["дизайнер", "ui", "интерф"]
     for designer in designers:
         if designer in position:
-            member.position = "дизайнер"
+            member.position = "designer"
             return
 
     analysis = ["аналитик", "архи"]
     for an in analysis:
         if an in position:
-            member.position = "аналитик"
+            member.position = "analysis"
             return
 
     devs = ["developer", "разработчик", "программист", "engineer", "rnd"]
     for dev in devs:
         if dev in position:
-            member.position = "разработчик"
+            member.position = "developer"
             return
             
     admins = ["админ",]
     for adm in admins:
         if adm in position:
-            member.position = "администратор"
+            member.position = "admin"
             return
     
     if "студент" in position:
-        member.position = "студент"
+        member.position = "student"
         return
 
-    member.position = "н/д"
+    member.position = "na"
 
 def reduce_positions(members):
     """ Replace positions and reduce them to smaller amount of values """

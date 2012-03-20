@@ -7,21 +7,44 @@
         <script src="js/sorttable.js"></script>
         <script src="js/Members.js"></script>
         <script src="js/MembersData.js"></script>
-        <link rel="stylesheet" href="js/data.css" type="text/css" media="screen" /> 
+        <link rel="stylesheet" href="css/Members.css" type="text/css" media="screen" /> 
     </head>
 
     <body>
         <div id="content">
-            <form>
-                <input type="radio" name="group1"> Все <div id="sex_all"></div><br>
-                <input type="radio" name="group1"> Мужчины <div id="sex_m"></div><br>
-                <input type="radio" name="group1"> Женщины <div id="sex_f"></div><br>
-                <br>
+            <table>
+                <tr>
+                    <td width="10%">
+                        Все <span class="value" id="sex_all"></span><br>
+                        Мужчины <span class="value" id="sex_m"></span><br>
+                        Женщины <span class="value" id="sex_f"></span><br>
+                    </td>
 
-                <input type="radio" name="group2"> Все <div id="sex_all"></div><br>
-                <input type="radio" name="group2"> Мужчины <div id="sex_m"></div><br>
-                <input type="radio" name="group2"> Женщины <div id="sex_f"></div><br>
-            </form>
+                    <td width="10%">
+                        Все <span class="value" id="company_all"></span><br>
+                        50+ <span class="value" id="company_50+"></span><br>
+                        21-50 <span class="value" id="company_21-50"></span><br>
+                        16-20 <span class="value" id="company_16-20"></span><br>
+                        11-15 <span class="value" id="company_11-15"></span><br>
+                        6-10 <span class="value" id="company_6-10"></span><br>
+                        2-5 <span class="value" id="company_2-5"></span><br>
+                        1 <span class="value" id="company_1"></span><br>
+                    </td>
+
+                    <td width="10%">
+                        Все <span class="value" id="position_all"></span><br>
+                        HR <span class="value" id="position_hr"></span><br>
+                        Управляющий <span class="value" id="position_mgmt"></span><br>
+                        QA <span class="value" id="position_qa"></span><br>
+                        Дизайнер <span class="value" id="position_designer"></span><br>
+                        Аналитик <span class="value" id="position_analysis"></span><br>
+                        Разработчик <span class="value" id="position_developer"></span><br>
+                        Администратор <span class="value" id="position_admin"></span><br>
+                        Студент <span class="value" id="position_student"></span><br>
+                        Н/Д <span class="value" id="position_na"></span><br>
+                    </td>
+                </tr>
+            </table>
         </div>
     </body>
 </head>
