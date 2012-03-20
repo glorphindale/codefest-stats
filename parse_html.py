@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 import re
-from collections import namedtuple
 from collections import defaultdict
+import json
 
 import filters
 
 class Member:
-    def __init__(self, name, company="н/д", position="н/д"):
+    def __init__(self, name, company="н/д", position="н/д", amount=0):
         self.name = name
         self.company = company
         self.position = position
-
-    def __repr__(self):
-        return "%s works at %s as %s" % (self.name, self.company, self.position)
+        self.amount = amount
 
     def row(self):
-        return "<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (self.name, self.company, self.position)
+        return "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n" % (self.name, self.company,
+                self.position, self.amount)
 
 def parse_members():
     members = []
@@ -70,19 +69,24 @@ def store_raw_stats(members):
     template = open("raw_stats_template.html", "r").read()
     out = open("raw_stats.html", "w")
 
-    positions = count_positions(members)
     raw_data = "".join(map(Member.row, members))
 
     content = template % locals()
     out.write(content)
     out.close()
 
-def count_positions(members):
-    positions = defaultdict(int)
-    for m in members:
-        positions[m.position] += 1
+def group_members(members):
+    grouping = defaultdict(int)
+    for member in members:
+        key = "%s;%s;%s" % (member.name, member.company, member.position)
+        grouping[key] += 1
 
-    return (positions, len(positions.keys()))
+    new_members = []
+    for member_key in grouping:
+        parts = member_key.split(";")
+        new_members.append(Member(parts[0], parts[1], parts[2], grouping[member_key]))
+
+    return new_members
 
 if __name__ == "__main__":
     members = parse_members()
@@ -91,5 +95,12 @@ if __name__ == "__main__":
     filters.group_companies(members)
     filters.reduce_companies(members)
     filters.reduce_positions(members)
+
+    members = group_members(members)
+
+    with open("js/MembersData.js", "w") as f:
+        content = "var raw_data = %s;" % json.dumps([(m.name, m.company, m.position, m.amount) for m
+            in members], ensure_ascii=False)
+        f.write(content)
 
     store_raw_stats(members)

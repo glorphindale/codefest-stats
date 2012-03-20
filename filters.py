@@ -118,15 +118,15 @@ def group_companies(members):
 def get_gender(name):
     clean_name = name.lower().strip()
     if clean_name in ["данила", "илья", "миша", "слава"]:
-        return "м"
+        return "m"
 
     if clean_name in ["любовь"]:
-        return "ж"
+        return "f"
 
     if clean_name[-1] in ['а', 'е', 'и', 'о', 'у', 'э', 'ю', 'я']:
-        return "ж"
+        return "f"
     else:
-        return "м"
+        return "m"
 
 def replace_names(members):
     for member in members:
