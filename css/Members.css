@@ -2,3 +2,16 @@
     font: 16 "Helvetica-Neue", "Arial", sans-serif;
     color: green;
 }
+
+div.percentage {
+    font-size: 10pt;
+    color: #AAAAAA;
+}
+
+img.bar {
+    border-color: #00AA00;
+}
+
+img.bar {
+    opacity: 0.8;
+}
