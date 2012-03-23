@@ -8,10 +8,13 @@ div.percentage {
     color: #AAAAAA;
 }
 
-img.bar {
-    border-color: #00AA00;
-}
-
-img.bar {
-    opacity: 0.8;
+.bar {
+    position:absolute;
+    cursor:pointer;
+    -webkit-transition-property: top;
+    -moz-transition-property: top;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -webkit-transition-duration: 0.25s;
+    -moz-transition-duration: 0.25s;
 }
