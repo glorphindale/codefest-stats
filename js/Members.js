@@ -24,6 +24,9 @@ window.addEvent('domready', function () {
     };
 
     function get_percentage(value, total) {
+        if (total == 0) {
+            return 0;
+        }
         return Math.round(100*value/total);
     };
     function get_bar_width(value, total) {
@@ -83,8 +86,6 @@ window.addEvent('domready', function () {
 
         div.appendChild(bar_div);
     };
-
-    var total = 1338; // TODO count amount
 
     function filter_raw_data() {
         var sex_total = 0;
