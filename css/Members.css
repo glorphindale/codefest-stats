@@ -1,0 +1,55 @@
+.value {
+    font-size: 10pt;
+    color: gray;
+}
+
+.valueSelected {
+    font-size: 10pt;
+    color: red;
+}
+
+.caption {
+    font-size: 10pt;
+    color: gray;
+}
+.captionSelected {
+    font-size: 10pt;
+    color: red;
+}
+
+.SelectableChart {
+    position:relative;
+}
+
+.SelectableChartRow {
+    position:absolute;
+    cursor:pointer;
+    -webkit-transition-property: top;
+    -moz-transition-property: top;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -webkit-transition-duration: 0.25s;
+    -moz-transition-duration: 0.25s
+}
+
+.bar {
+    background-color: #BBB;
+    cursor:pointer;
+    -webkit-transition-property: top;
+    -moz-transition-property: top;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -webkit-transition-duration: 0.25s;
+    -moz-transition-duration: 0.25s;
+}
+
+.barSelected {
+    background-color: #f00;
+    cursor:pointer;
+    -webkit-transition-property: top;
+    -moz-transition-property: top;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -webkit-transition-duration: 0.25s;
+    -moz-transition-duration: 0.25s;
+}
